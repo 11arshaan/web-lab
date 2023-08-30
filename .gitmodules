@@ -1,0 +1,12 @@
+[submodule "web-osc"]
+	path = web-osc
+	url = https://github.com/11arshaan/web-osc
+[submodule "canvas-sketchbook"]
+	path = canvas-sketchbook
+	url = https://github.com/11arshaan/canvas-sketchbook
+[submodule "web-audio-synthesizer"]
+	path = web-audio-synthesizer
+	url = https://github.com/11arshaan/web-audio-synthesizer
+[submodule "web-gallery"]
+	path = web-gallery
+	url = https://github.com/11arshaan/web-gallery

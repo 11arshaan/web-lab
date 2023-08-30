@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="stream-container">
+      <video id="stream">Video stream unavailable</video>
+      <div class="buttons-container">
+        <button type="button" id="start-media">Start Stream</button>
+        <button type="button" id="stop-stream">Stop Stream</button>
+        <button type="button" id="take-photo">Take Photo</button>
+        <button type="button" id="clear-photo">Clear Photo</button>
+      </div>
+    </div>
+
+    <div class="output">
+      <canvas id="canvas"> </canvas>
+
+      <img id="photo" alt="The screen capture will appear in this box." />
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
