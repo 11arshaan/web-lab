@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import * as dat from 'lil-gui'
 
 THREE.ColorManagement.enabled = false
@@ -25,46 +26,74 @@ const textureLoader = new THREE.TextureLoader()
 const cubeTextureLoader = new THREE.CubeTextureLoader()
 
 const environmentMapTexture = cubeTextureLoader.load([
-    '/textures/environmentMaps/0/px.png',
-    '/textures/environmentMaps/0/nx.png',
-    '/textures/environmentMaps/0/py.png',
-    '/textures/environmentMaps/0/ny.png',
-    '/textures/environmentMaps/0/pz.png',
-    '/textures/environmentMaps/0/nz.png'
+    '/textures/environmentMaps/5/px.png',
+    '/textures/environmentMaps/5/nx.png',
+    '/textures/environmentMaps/5/py.png',
+    '/textures/environmentMaps/5/ny.png',
+    '/textures/environmentMaps/5/pz.png',
+    '/textures/environmentMaps/5/nz.png'
 ])
 
-/**
- * Test sphere
- */
-const sphere = new THREE.Mesh(
-    new THREE.SphereGeometry(0.5, 32, 32),
-    new THREE.MeshStandardMaterial({
-        metalness: 0.3,
-        roughness: 0.4,
-        envMap: environmentMapTexture,
-        envMapIntensity: 0.5
-    })
-)
-sphere.castShadow = true
-sphere.position.y = 0.5
-scene.add(sphere)
+scene.background = environmentMapTexture;
 
 /**
- * Floor
+ * Geometry
  */
-const floor = new THREE.Mesh(
-    new THREE.PlaneGeometry(10, 10),
-    new THREE.MeshStandardMaterial({
-        color: '#777777',
-        metalness: 0.3,
-        roughness: 0.4,
-        envMap: environmentMapTexture,
-        envMapIntensity: 0.5
-    })
-)
-floor.receiveShadow = true
-floor.rotation.x = - Math.PI * 0.5
-scene.add(floor)
+
+
+const gltfLoader = new GLTFLoader();
+gltfLoader.load(
+	// resource URL
+	'/models/Japanese_Temple_Blender.glb',
+	// called when the resource is loaded
+	function ( gltf ) {
+  //   gltf.scene.traverse((child) => {
+  //     if (child.isMesh) {
+  //         // Adjust these properties as needed
+  //         child.material.envMap = environmentMapTexture;
+  //         child.material.needsUpdate = true;
+  //     }
+  // });
+		scene.add( gltf.scene );
+
+		gltf.animations; // Array<THREE.AnimationClip>
+		gltf.scene; // THREE.Group
+		gltf.scenes; // Array<THREE.Group>
+		gltf.cameras; // Array<THREE.Camera>
+		gltf.asset; // Object
+
+	},
+	// called while loading is progressing
+	function ( xhr ) {
+
+		console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+	},
+	// called when loading has errors
+	function ( error ) {
+
+		console.log( 'An error happened' );
+
+	}
+);
+
+
+// /**
+//  * Floor
+//  */
+// const floor = new THREE.Mesh(
+//     new THREE.PlaneGeometry(10, 10),
+//     new THREE.MeshStandardMaterial({
+//         color: '#777777',
+//         metalness: 0.3,
+//         roughness: 0.4,
+//         envMap: environmentMapTexture,
+//         envMapIntensity: 0.5
+//     })
+// )
+// floor.receiveShadow = true
+// floor.rotation.x = - Math.PI * 0.5
+// scene.add(floor)
 
 /**
  * Lights
@@ -110,14 +139,18 @@ window.addEventListener('resize', () =>
  * Camera
  */
 // Base camera
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.set(- 3, 3, 3)
+const camera = new THREE.PerspectiveCamera(80, sizes.width / sizes.height, 0.1, 100)
+camera.position.set(0, 21, 26)
 scene.add(camera)
 
 // Controls
 const controls = new OrbitControls(camera, canvas)
+controls.maxAzimuthAngle = Math.PI * 0.15
+controls.minAzimuthAngle = - Math.PI * 0.15
+controls.maxPolarAngle = Math.PI * 0.49
+controls.minPolarAngle = Math.PI * 0.3
 controls.enableDamping = true
-
+controls.dampingFactor = .05
 /**
  * Renderer
  */
@@ -129,6 +162,7 @@ renderer.shadowMap.enabled = true
 renderer.shadowMap.type = THREE.PCFSoftShadowMap
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
 
 /**
  * Animate
