@@ -123,6 +123,7 @@ floorBody.quaternion.setFromAxisAngle(new CANNON.Vec3(-1, 0, 0), Math.PI * 0.5);
 world.addBody(floorBody);
 world.addContactMaterial(concretePlasticContactMaterial);
 
+
 /**
  * Floor
  */
@@ -224,7 +225,7 @@ const tick = () => {
 
   // Update spheres
   for (const object of objectsToUpdate) {
-    object.mesh.position.copy(object.body.position);
+    object.mesh.position.copy(object.body.position); 
     object.mesh.quaternion.copy(object.body.quaternion)
   }
 
