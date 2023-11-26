@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import * as dat from "lil-gui";
 import CANNON from "cannon";
-import { createSphere, createBox, playHitSound } from "./createSphere";
+import { createSphere, createBox } from "./createSphere";
 
 THREE.ColorManagement.enabled = false;
 
@@ -124,7 +124,6 @@ debugObject.reset = () => {
 
 gui.add(debugObject, "createSphere");
 gui.add(debugObject, "createBox");
-gui.add(debugObject, "reset");
 
 //floor body
 const floorShape = new CANNON.Plane();

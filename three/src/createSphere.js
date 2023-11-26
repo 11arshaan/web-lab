@@ -15,7 +15,7 @@ const environmentMapTexture = cubeTextureLoader.load([
 
 const cooldownTimers = {};
 const hitSound = new Audio("/sounds/hit.mp3");
-const playHitSound = (collision) => {
+export const playHitSound = (collision) => {
     const bodyId = collision.body.id;
     const currentTime = Date.now();
   
