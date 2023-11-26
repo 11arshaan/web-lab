@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import * as dat from "lil-gui";
-import CANNON from "cannon";
+import * as CANNON from "cannon-es";
 import { createSphere, createBox, playHitSound } from "./createSphere";
 
 THREE.ColorManagement.enabled = false;
@@ -37,10 +37,6 @@ const environmentMapTexture = cubeTextureLoader.load([
   "/textures/environmentMaps/0/pz.png",
   "/textures/environmentMaps/0/nz.png",
 ]);
-
-
-
-
 
 //Three Geo
 const sphereGeo = new THREE.SphereGeometry(1, 20, 20);
@@ -110,17 +106,14 @@ debugObject.createBox = () => {
   );
 };
 
-
 debugObject.reset = () => {
   for (const object of objectsToUpdate) {
     object.body.removeEventListener("collide", playHitSound);
-    world.remove(object.body);
+    world.removeBody(object.body);
     scene.remove(object.mesh);
-
-    
   }
-
-}
+  objectsToUpdate.splice(0, objectsToUpdate.length);
+};
 
 gui.add(debugObject, "createSphere");
 gui.add(debugObject, "createBox");
@@ -135,7 +128,6 @@ floorBody.quaternion.setFromAxisAngle(new CANNON.Vec3(-1, 0, 0), Math.PI * 0.5);
 
 world.addBody(floorBody);
 world.addContactMaterial(concretePlasticContactMaterial);
-
 
 /**
  * Floor
@@ -238,8 +230,8 @@ const tick = () => {
 
   // Update spheres
   for (const object of objectsToUpdate) {
-    object.mesh.position.copy(object.body.position); 
-    object.mesh.quaternion.copy(object.body.quaternion)
+    object.mesh.position.copy(object.body.position);
+    object.mesh.quaternion.copy(object.body.quaternion);
   }
 
   // Update controls

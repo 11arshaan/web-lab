@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import CANNON from "cannon";
+import * as CANNON from "cannon-es";
 
 const cubeTextureLoader = new THREE.CubeTextureLoader();
 
